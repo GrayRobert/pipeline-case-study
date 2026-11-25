@@ -81,6 +81,88 @@ footer{padding:36px 56px;font-size:13px;color:var(--mute)}
 <h2>Automation without handing over the release.</h2>
 <p>The agent does not get production credentials or deploy the live site. I review and merge changes, read database migrations and control releases. The business team approves the wording.</p>
 <p>Development, preview, staging and production have different purposes. Keeping them distinct gives both the agent and the reviewer somewhere to inspect a change before it reaches the live site.</p></div>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI-assisted development. Human-owned delivery. | Robert Gray</title>
+<meta name="description" content="How I built a supervised development pipeline around an existing WordPress site, so our in-house team could take on work we were considering outsourcing.">
+<style>
+:root{--bg:#f4eeeb;--ink:#231f20;--mute:#555;--acc:#3d6b5c;--tint:#e3efeb;--line:#e6e0dc}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+a{color:inherit}
+.top{max-width:880px;margin:0 auto;padding:18px 32px;display:flex;justify-content:space-between;font-size:13px;color:var(--mute)}
+.top a{color:var(--ink)}
+main{max-width:880px;margin:0 auto;background:#fff}
+section,header{padding:56px 56px;border-bottom:1px solid var(--line)}
+.in{max-width:600px}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#555;margin:0 0 18px}
+h1,h2{font-family:Georgia,"Times New Roman",serif;font-weight:400;letter-spacing:-.02em;line-height:1.12;margin:0 0 24px}
+h1{font-size:clamp(34px,6vw,52px)}
+h2{font-size:clamp(26px,4.5vw,32px)}
+.lede{font-size:19px;color:var(--mute);line-height:1.55}
+.by{font-size:13px;line-height:1.6;margin-top:28px}
+nav{padding:22px 56px;display:flex;flex-wrap:wrap;gap:12px 24px;font-size:13px;border-bottom:1px solid var(--line)}
+p{margin:0 0 16px}
+blockquote{margin:28px 0;padding:2px 0 2px 22px;border-left:3px solid var(--acc);font-family:Georgia,serif;font-size:21px;line-height:1.4}
+.flow{list-style:none;padding:0;margin:28px 0 8px;display:grid;gap:14px}
+.flow.n5{grid-template-columns:repeat(5,1fr)}.flow.n4{grid-template-columns:repeat(4,1fr)}
+.flow li{position:relative;border-radius:6px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.flow li+li:before{content:"\2192";position:absolute;left:-13px;top:50%;transform:translateY(-50%);color:var(--acc);font-size:12px}
+.person{background:var(--tint)}.process{background:var(--bg)}
+.k{font-size:10px;color:#555;letter-spacing:.04em}.flow strong{font-size:14px}.s{font-size:12px;color:var(--mute)}
+.cap{font-size:13px;color:var(--mute);margin:0 0 28px}
+.callout{background:var(--bg);border-radius:10px;padding:28px 32px;margin:28px 0}
+.callout h3{font-size:20px;margin:0 0 12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px 36px;margin-top:28px}
+.grid2 h3{font-size:16px;margin:0 0 6px}.grid2 p{font-size:15px;color:var(--mute)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:28px 0 12px}
+.stats b{display:block;font-family:Georgia,serif;font-size:38px;font-weight:400;line-height:1.1;color:var(--acc)}
+.stats span{font-size:14px;color:var(--mute)}
+.fine{font-size:13px;color:var(--mute)}
+.sub{font-family:Georgia,serif;font-weight:400;font-size:20px;margin:28px 0 12px}
+.stats.two{grid-template-columns:repeat(2,1fr)}
+.fine+.in{margin-top:20px}
+.close{background:var(--tint);border-radius:10px;padding:28px 32px;margin-top:32px;font-family:Georgia,serif;font-size:24px;line-height:1.3}
+.close span{color:var(--mute)}
+footer{padding:36px 56px;font-size:13px;color:var(--mute)}
+@media(max-width:720px){section,header,nav,footer{padding-left:22px;padding-right:22px}section,header{padding-top:40px;padding-bottom:40px}
+.top{padding:14px 22px}.top span{display:none}
+.flow.n5,.flow.n4{grid-template-columns:1fr}.flow li+li:before{content:"\2193";left:50%;top:-12px;transform:translateX(-50%)}
+.grid2,.stats,.stats.two{grid-template-columns:1fr}.callout,.close{padding:22px}.close{font-size:21px}}
+</style></head><body>
+<div class="top"><a href="https://grayrobert.github.io/">Robert Gray</a><span>Engineering leadership / Case study</span></div>
+<main>
+<header><div class="in">
+<p class="eyebrow">Topflight Travel Group &middot; October&ndash;November 2026</p>
+<h1>AI-assisted development. Human-owned delivery.</h1>
+<p class="lede">How I built a supervised development pipeline around an existing WordPress site, so our in-house team could take on work we were considering outsourcing.</p>
+<p class="by"><strong>Robert Gray</strong> / CTO, Topflight Travel Group<br>Claude Code &middot; GitHub Actions &middot; Jira</p>
+</div></header>
+<nav><a href="#decision">The decision</a><a href="#workflow">The workflow</a><a href="#turning-point">What failed</a><a href="#results">Results &amp; limits</a><a href="#next">What comes next</a></nav>
+
+<section id="decision"><div class="in">
+<p class="eyebrow">01 / The decision</p>
+<h2>A familiar capacity problem. An unfamiliar stack.</h2>
+<p>We had a WordPress brochure site for a business unit within Topflight Travel Group that did not use our in-house development team. Our engineers work in Java and React. It had been hard to justify taking them away from that work to work in PHP and WordPress.</p>
+<p>We were considering an agency. Instead, I built an agentic development pipeline using Claude Code, GitHub Actions and Jira, so we could take on the work in-house.</p>
+<p>The starting point was an existing site with a custom theme, custom plugins and a backlog of content, layout and maintenance work. This was not a blank-page demo. WordPress also stores much of a site's state in its database, so editing files alone would not be enough.</p>
+<blockquote>Claude writes the code. I own the decisions about what we build, whether the result is right and what goes live.</blockquote>
+</div></section>
+
+<section id="workflow"><div class="in">
+<p class="eyebrow">02 / The workflow</p>
+<h2>A ticket in. Evidence back.</h2>
+<p>I write a Jira ticket with one visible change, assign it to the agent and review what comes back. GitHub Actions runs Claude Code, prepares the pull request and creates a preview. The agent's task is to produce a reviewable change, not to decide what should go live.</p></div>
+<ol class="flow n5"><li class="person"><span class="k">01 / PERSON</span><strong>Brief</strong><span class="s">Jira ticket</span></li><li class="process"><span class="k">02 / PROCESS</span><strong>Build</strong><span class="s">Claude Code</span></li><li class="process"><span class="k">03 / PROCESS</span><strong>Check</strong><span class="s">Disposable site</span></li><li class="person"><span class="k">04 / PERSON</span><strong>Review</strong><span class="s">Preview + evidence</span></li><li class="person"><span class="k">05 / PERSON</span><strong>Release</strong><span class="s">Human decision</span></li></ol><p class="cap">The pipeline automates the work between the brief and review. A person still owns acceptance and release.</p>
+<div class="in"><p>Each pull request gets a review pack comparing the starting point with the proposed change. It includes screenshots, browser checks and a risk rating. A preview lets me inspect the branch in a working site before merging it.</p></div>
+<ol class="flow n4"><li class="person"><span class="k">01 / PERSON</span><strong>Specify</strong><span class="s">One change per ticket</span></li><li class="process"><span class="k">02 / PROCESS</span><strong>Implement</strong><span class="s">Workflow prepares branch</span></li><li class="person"><span class="k">03 / PERSON</span><strong>Inspect</strong><span class="s">Review the actual result</span></li><li class="person"><span class="k">04 / PERSON</span><strong>Revise or merge</strong><span class="s">Feedback or acceptance</span></li></ol><p class="cap">If the result is wrong, feedback starts a revision. Passing a check is not the same as satisfying the ticket.</p>
+</section>
+
+<section id="boundaries"><div class="in">
+<p class="eyebrow">03 / The boundaries</p>
+<h2>Automation without handing over the release.</h2>
+<p>The agent does not get production credentials or deploy the live site. I review and merge changes, read database migrations and control releases. The business team approves the wording.</p>
+<p>Development, preview, staging and production have different purposes. Keeping them distinct gives both the agent and the reviewer somewhere to inspect a change before it reaches the live site.</p></div>
 <ol class="flow n4"><li class="process"><span class="k">01 / PROCESS</span><strong>Agent</strong><span class="s">Propose code changes</span></li><li class="person"><span class="k">02 / PERSON</span><strong>Reviewer</strong><span class="s">Judge the result</span></li><li class="person"><span class="k">03 / PERSON</span><strong>Business</strong><span class="s">Approve wording</span></li><li class="person"><span class="k">04 / PERSON</span><strong>Release owner</strong><span class="s">Decide what goes live</span></li></ol><p class="cap">These are responsibility boundaries, not a claim of autonomous operation or a security audit.</p>
 <ol class="flow n4"><li class="process"><span class="k">01 / PROCESS</span><strong>Sandbox</strong><span class="s">Disposable test copy</span></li><li class="person"><span class="k">02 / PERSON</span><strong>Preview</strong><span class="s">Inspect one branch</span></li><li class="person"><span class="k">03 / PERSON</span><strong>Staging</strong><span class="s">Review merged work</span></li><li class="person"><span class="k">04 / PERSON</span><strong>Production</strong><span class="s">Controlled release</span></li></ol><p class="cap">A preview is for inspecting a proposed change. Staging brings accepted work together before release.</p>
 </section>
@@ -125,7 +207,7 @@ footer{padding:36px 56px;font-size:13px;color:var(--mute)}
 <p class="fine">The pull-request total includes pipeline infrastructure and revisions. It is not a count of features, successful agent runs or work completed by the agent alone.</p>
 <div class="in"><h3 class="sub">A like-for-like cost of ownership</h3>
 <p>For work we were considering outsourcing, agency quotes put the cost of ownership at about €120k over five years: roughly €30k for the initial build, and the rest for maintenance and upgrades. These are quoted figures, and likely typical for this kind of site.</p></div>
-<div class="stats two"><div><b>~€120k</b><span>outsourced, over 5 years. About €30k to build, the rest maintenance and upgrades (agency quotes)</span></div><div><b>&lt;€50</b><span>agentic credits spent so far (about $50 USD), covering the build and the maintenance and upgrade work to date</span></div></div>
+<div class="stats two"><div><b>~€120k</b><span>outsourced, over 5 years. About €30k to build, the rest maintenance and upgrades (agency quotes)</span></div><div><b>&lt;€50</b><span>agentic credits spent so far (about 50 US dollars), covering the build and the maintenance and upgrade work to date</span></div></div>
 <p class="fine">The two figures cover the same scope: build, maintenance and upgrades. They differ in time horizon (five years quoted, a few weeks of actual spend) and in what is counted. The credit figure excludes my own review and approval time, which is real and which I did not measure. Every change still passes through a human approval step.</p>
 <div class="in"><p>The record includes several dozen merged agent tickets covering homepage changes, menus, responsive fixes, galleries, redirects and content cleanup. As of 23 November 2026 the wider site update was on staging, pending business review. This case study makes no claim about its release.</p>
 <p>I did not record enough review-time or time-saved data to calculate a reliable productivity multiple, and the cost comparison above is not one. Commit and pull-request counts cannot answer those questions. The concrete result is a development process our team can own for work we were considering outsourcing. The code is generated, but the responsibility is not outsourced to the model.</p></div>
