@@ -37,13 +37,15 @@ blockquote{margin:28px 0;padding:2px 0 2px 22px;border-left:3px solid var(--acc)
 .stats b{display:block;font-family:Georgia,serif;font-size:38px;font-weight:400;line-height:1.1;color:var(--acc)}
 .stats span{font-size:14px;color:var(--mute)}
 .fine{font-size:13px;color:var(--mute)}
+.sub{font-family:Georgia,serif;font-weight:400;font-size:20px;margin:28px 0 12px}
+.stats.two{grid-template-columns:repeat(2,1fr)}
 .close{background:var(--tint);border-radius:10px;padding:28px 32px;margin-top:32px;font-family:Georgia,serif;font-size:24px;line-height:1.3}
 .close span{color:var(--mute)}
 footer{padding:36px 56px;font-size:13px;color:var(--mute)}
 @media(max-width:720px){section,header,nav,footer{padding-left:22px;padding-right:22px}section,header{padding-top:40px;padding-bottom:40px}
 .top{padding:14px 22px}.top span{display:none}
 .flow.n5,.flow.n4{grid-template-columns:1fr}.flow li+li:before{content:"\2193";left:50%;top:-12px;transform:translateX(-50%)}
-.grid2,.stats{grid-template-columns:1fr}.callout,.close{padding:22px}.close{font-size:21px}}
+.grid2,.stats,.stats.two{grid-template-columns:1fr}.callout,.close{padding:22px}.close{font-size:21px}}
 </style></head><body>
 <div class="top"><a href="https://grayrobert.github.io/">Robert Gray</a><span>Engineering leadership / Case study</span></div>
 <main>
@@ -117,11 +119,15 @@ footer{padding:36px 56px;font-size:13px;color:var(--mute)}
 
 <section id="results"><div class="in">
 <p class="eyebrow">07 / Results and limits</p>
-<h2>More work owned in-house. Not a measured productivity multiple.</h2></div>
+<h2>More work owned in-house. A cost comparison, not a measured productivity multiple.</h2></div>
 <div class="stats"><div><b>~122</b><span>pull requests opened by 11 November 2026</span></div><div><b>14</b><span>database migrations recorded by that date</span></div><div><b>Human</b><span>review, acceptance and release decisions</span></div></div>
 <p class="fine">The pull-request total includes pipeline infrastructure and revisions. It is not a count of features, successful agent runs or work completed by the agent alone.</p>
+<div class="in"><h3 class="sub">A like-for-like cost of ownership</h3>
+<p>For work we were considering outsourcing, agency quotes put the cost of ownership at about $120k over five years: roughly $30k for the initial build, and the rest for maintenance and upgrades. These are quoted figures, and likely typical for this kind of site.</p></div>
+<div class="stats two"><div><b>~$120k</b><span>outsourced, over 5 years. About $30k to build, the rest maintenance and upgrades (agency quotes)</span></div><div><b>&lt;$50</b><span>agentic credits spent so far, covering the build and the maintenance and upgrade work to date</span></div></div>
+<p class="fine">The two figures cover the same scope: build, maintenance and upgrades. They differ in time horizon (five years quoted, a few weeks of actual spend) and in what is counted. The credit figure excludes my own review and approval time, which is real and which I did not measure. Every change still passes through a human approval step.</p>
 <div class="in"><p>The record includes several dozen merged agent tickets covering homepage changes, menus, responsive fixes, galleries, redirects and content cleanup. As of 23 November 2026 the wider site update was on staging, pending business review. This case study makes no claim about its release.</p>
-<p>I did not record enough cost, review-time or time-saved data to calculate a financial return or a reliable productivity multiple. Commit and pull-request counts cannot answer those questions. The concrete result is a development process our team can own for work we were considering outsourcing. The code is generated, but the responsibility is not outsourced to the model.</p></div>
+<p>I did not record enough review-time or time-saved data to calculate a reliable productivity multiple, and the cost comparison below is not one. Commit and pull-request counts cannot answer those questions. The concrete result is a development process our team can own for work we were considering outsourcing. The code is generated, but the responsibility is not outsourced to the model.</p></div>
 </section>
 
 <section id="next"><div class="in">
@@ -130,6 +136,11 @@ footer{padding:36px 56px;font-size:13px;color:var(--mute)}
 <p>I understand the concerns about AI's effect on jobs, the environment and people's futures. This project does not settle them.</p>
 <p>It does give me a practical alternative to treating every productivity gain as a reason to reduce headcount. Our team can take on work that would otherwise leave it. If an engineer's return on investment increases, perhaps the next question should be what more engineers could build.</p>
 <p>For me, the engineering work was in making the output inspectable, making the limits visible and deciding where a person still needed to make the call.</p></div>
+<div class="in"><h3 class="sub">What I would build next</h3>
+<p>The same approach extends beyond engineering tickets: an SEO and content pipeline, with Content, QA, Security and SEO agents working on tickets raised directly by the marketing team. As with the development pipeline, a person would still review and approve each change before it ships.</p>
+<h3 class="sub">Where I think brochure sites go</h3>
+<p>This is a view, not a result from this project. I expect many static brochure sites to stop needing a CMS. WordPress and similar database-driven content tools can be replaced for simple sites by plain client-side websites, with all editing done by AI at code level. The site owner asks for a page to be created or changed against a brief or ticket, and the change is reviewed like any other.</p>
+<p>That would simplify what I built considerably, provided nobody needs hands-on CMS editing.</p></div>
 <div class="close">AI as a multiplier for a team.<br><span>Not a reason to stop investing in one.</span></div>
 </section>
 <footer><strong>About this case study.</strong> Based on the project's documented build history, complete to 11 November 2026, with later status notes through 23 November. Business-unit identifiers and operational security details are omitted. The six flow diagrams are simplified redrawings of the original technical views.<br><br>AI tools produced the implementation code and helped prepare the source documentation and this case study. Planning, review, acceptance and release decisions remained mine.</footer>
